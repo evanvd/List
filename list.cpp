@@ -47,13 +47,7 @@ void DestroyList(list* list)
     free(list->next);
 }
 
-void ListPrint(list* list)
-{
-    for (size_t index = 1; index != 0; index = list->next[index])
-    {
-        printf("[%lu] %lf\n", index, list->data[index]);
-    }
-} 
+
 
 void ListAdd(list* list, double element, size_t index_previous)
 {

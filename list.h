@@ -18,6 +18,5 @@ void InitList(list* list, int count);
 void DestroyList(list* list);
 
 void ListAdd(list* list, double element, size_t index_previous);
-void ListPrint(list* list);
 void ListDelete(list* list, size_t index_previous);
 #endif

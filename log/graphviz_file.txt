@@ -1,0 +1,7 @@
+digraph {
+node1 [shape=record,label=" 1 |data 10.000000 |<f0> next | prev " ];node2 [shape=record,label=" 2 |data 20.000000 |<f0> next | prev " ];node3 [shape=record,label=" 3 |data 30.000000 |<f0> next | prev " ];node4 [shape=record,label=" 4 |data 40.000000 |<f0> next | prev " ];node6 [shape=record,label=" 6 |data 50.000000 |<f0> next | prev " ];node5 [shape=record,label=" 5 |data 0.000000 |<f0> next | prev " ];node1:<f0> -> node2:<f0>;
+node2:<f0> -> node3:<f0>;
+node3:<f0> -> node4:<f0>;
+node4:<f0> -> node5:<f0>;
+node6:<f0> -> node7:<f0>;
+}

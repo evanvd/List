@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "list.h"
-
+#include "dump.h"
 
 int main()
 {
@@ -8,8 +8,10 @@ int main()
     InitList(&list, 5);
     ListPrint(&list);
     printf("\n");
+    ListAdd(&list, 50, 4);
+    
+    GraphDump(&list, "log/graphviz_file.txt");
 
-    ListAdd(&list, 50, 4);    
     ListPrint(&list);
     printf("\n");
 
