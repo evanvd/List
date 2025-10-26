@@ -4,7 +4,7 @@
 
 const double CANARY = 0xDEAD;
 const double POIZON = 0xDEAD; //TODO  ADD value to consts 
-const size_t default_size = 20;
+const size_t default_size = 10;
 
 void InitList(list* list, int count)
 {
@@ -24,7 +24,7 @@ void InitList(list* list, int count)
 
     list->free = count + 1; 
 
-    for (size_t index = 0; index  < (size_t)count; index++)
+    for (size_t index = 1; index  < (size_t)count; index++)
     {
         list->data[index] = (double)index * 10;
         list->next[index] = (int)index + 1;

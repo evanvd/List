@@ -8,14 +8,14 @@ int main()
     InitList(&list, 5);
     ListPrint(&list);
     printf("\n");
-    ListAdd(&list, 50, 4);
-    
-    GraphDump(&list, "log/graphviz_file.txt");
+    ListAdd(&list, 60, 5);
 
-    ListPrint(&list);
+    //ListPrint(&list);
     printf("\n");
 
     ListDelete(&list, 2);
-    ListPrint(&list);
+    GraphDump(&list, "log/graphviz_file.txt");
+
+    //ListPrint(&list);
     DestroyList(&list);
 }
