@@ -34,7 +34,7 @@ void InitList(list* list, int count)
     for (size_t index = (size_t)count + 2; index < default_size; index++)
     {
         list->data[index] = POIZON;
-        list->data[index] = -(int)index;
+        list->next[index] = -(int)index -1;
     }
     
     //TODO init in cycle 
@@ -51,12 +51,17 @@ void DestroyList(list* list)
 
 void ListAdd(list* list, double element, size_t index_previous)
 {
+    
     list->data[list->free] = element;
+    size_t tmp = list->next[list->free];
     list->next[list->free] = list->next[index_previous];
     list->next[index_previous] = list->free; //TODO list->free = чему-то
+    list->free = tmp;
 }
 
 void ListDelete(list* list, size_t index_previous)
 {
     list->next[index_previous] = list->next[list->next[index_previous]];
+    list->data[index_previous] = list->free;
+    list->free = index_previous;
 }

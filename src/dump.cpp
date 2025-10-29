@@ -25,7 +25,7 @@ void GraphDump(list* list, const char* filename)
     
 
     fprintf(log_file, "node1");
-    for (size_t index = list->next[1]; list->next[index]!= 0; index = list->next[index])
+    for (size_t index = list->next[1]; index != 0; index = list->next[index])
     {
         fprintf(log_file, "->node%lu", index);
 
@@ -36,12 +36,16 @@ void GraphDump(list* list, const char* filename)
     fprintf(log_file, "}");
     fclose(log_file);
     system("dot -Tpng log/graphviz_file.txt -o log/graph.png");
+    system("xdg-open dump.html");
 }
 
 void ListPrint(list* list)
 {
     for (size_t index = 1; index != 0; index = list->next[index])
     {
-        printf("[%lu] %lf\n", index, list->data[index]);
+        printf("\ndata[%lu] %lf\n", index, list->data[index]);
+        printf("next[%lu] %d\n", index, list->next[index]);
+        printf("free %d\n", list->free);
+        getchar();
     }
 } 

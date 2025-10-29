@@ -10,12 +10,16 @@ int main()
     printf("\n");
     ListAdd(&list, 60, 2);
 
+    ListAdd(&list, 70, 4);
+    GraphDump(&list, "log/graphviz_file.txt");
+
     //ListPrint(&list);
     printf("\n");
 
     ListDelete(&list, 2);
     ListAdd(&list, 70, 4);
-    GraphDump(&list, "log/graphviz_file.txt");
+    ListAdd(&list, 50,2);
+    ListPrint(&list);
 
     ListPrint(&list);
     DestroyList(&list);
