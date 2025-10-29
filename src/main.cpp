@@ -5,22 +5,25 @@
 int main()
 {
     list list = {};
-    InitList(&list, 5);
+    InitList(&list, 10);
     ListPrint(&list);
+    //GraphDump(&list, "log/graphviz_file.txt");
     printf("\n");
-    ListAdd(&list, 60, 2);
 
-    ListAdd(&list, 70, 4);
+    ListAdd(&list, 10, 0);
+    ListAdd(&list, 30, 1);
+    ListPrint(&list);
+    
+    ListAdd(&list, 20, 1);
     GraphDump(&list, "log/graphviz_file.txt");
-
-    //ListPrint(&list);
-    printf("\n");
-
-    ListDelete(&list, 2);
-    ListAdd(&list, 70, 4);
-    ListAdd(&list, 50,2);
+    ListPrint(&list);
+    ListAdd(&list, 40, 3);
+    
     ListPrint(&list);
 
+    GraphDump(&list, "log/graphviz_file.txt");
     ListPrint(&list);
+    
+
     DestroyList(&list);
 }

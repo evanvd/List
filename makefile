@@ -13,7 +13,7 @@ TARGET = list
 $(TARGET): $(OBJ)
 	$(CC) $(OBJ) $(FLAGS) $(INCLUDES) -o $(TARGET)
 
-execute:
+run:
 	./$(TARGET)
 
 $(PREF_OBJ)%.o : $(PREF_SRC)%.cpp
