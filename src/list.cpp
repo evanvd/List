@@ -95,5 +95,6 @@ void ListAdd(list* list, double element, size_t index_previous)
 
 void ListDelete(list* list, size_t index_previous)
 {
+    //TODO verify
     list->next[index_previous] = list->next[list->next[index_previous]];
 }

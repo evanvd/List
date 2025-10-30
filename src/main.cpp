@@ -15,15 +15,18 @@ int main()
     ListPrint(&list);
     
     ListAdd(&list, 20, 1);
-    GraphDump(&list, "log/graphviz_file.txt");
+    //GraphDump(&list, "log/graphviz_file.txt");
     ListPrint(&list);
-    ListAdd(&list, 40, 3);
+    ListAdd(&list, 40, 2);
     
     ListPrint(&list);
 
+    //GraphDump(&list, "log/graphviz_file.txt"); 
+    #define __CALL_DUMP_LINE __LINE__
+
+    ListAdd(&list, 50, 3);
     GraphDump(&list, "log/graphviz_file.txt");
     ListPrint(&list);
-    
 
     DestroyList(&list);
 }

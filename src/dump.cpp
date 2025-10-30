@@ -12,8 +12,36 @@ void GraphDump(list* list, const char* filename)
         printf("empty list\n");
         return;
     }
+
     static int count_dump = 1;    
+    
     FILE* log_file =  fopen(filename, "w");
+    WriteToDot(list, log_file);
+    fclose(log_file);
+    
+    CallCommand(count_dump);
+    DumpToHtml(list, count_dump);
+    count_dump++;
+}
+
+void ListPrint(list* list)
+{
+    for (size_t index = 1; index != 0; index = (int)list->next[index])
+    {
+        printf("\ndata[%lu] %lf\n", index, list->data[index]);
+        printf("next[%lu] %d\n", index, list->next[index]);
+        printf("free %d\n", list->free);
+        if (list->next[index] < 0)
+        {
+            printf("empty list\n");
+            return;
+        }
+        //getchar();
+    }
+} 
+
+void WriteToDot(list* list, FILE* log_file)
+{
     fprintf(log_file, "digraph {\n");
     
     fprintf(log_file, "rankdir=LR;\n ranksep=0.5;\n nodesep = 0.3;");
@@ -44,37 +72,23 @@ void GraphDump(list* list, const char* filename)
 
     
     fprintf(log_file, "}");
-    fclose(log_file);
+}
+
+void CallCommand(size_t count_dump)
+{
     char cmd[60] = {};
     snprintf(cmd, sizeof(cmd), "%s%d.%s", "dot -Tpng log/graphviz_file.txt -o log/graph", count_dump, "png");
-    //cmd = strcat(cmd, file_count);
     printf("%s\n",cmd);
     system(cmd);
-    count_dump++;
 }
 
-void ListPrint(list* list)
+void DumpToHtml(list* list, size_t count_dump)
 {
-    for (size_t index = 1; index != 0; index = (int)list->next[index])
-    {
-        printf("\ndata[%lu] %lf\n", index, list->data[index]);
-        printf("next[%lu] %d\n", index, list->next[index]);
-        printf("free %d\n", list->free);
-        if (list->next[index] < 0)
-        {
-            printf("empty list\n");
-            return;
-        }
-        getchar();
-    }
-} 
+    char dump_str[40] = {};
+    snprintf(dump_str, sizeof(dump_str), "<h1>DUMP FROM %s:%d</h1>\n", __FILE__,__LINE__);
+    fprintf(list->dump_file, dump_str);
 
-void WriteToDot(list*, const char* filename)
-{
-    
-}
-
-void DumpToHtml(list* list)
-{
-    fprintf(list->dump_file, "");
+    char img_name[40] = {};
+    snprintf(img_name, sizeof(img_name), "<img src = \"log/graph%d.png\"/>\n",  count_dump);
+    fprintf(list->dump_file, img_name);
 }
