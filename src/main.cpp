@@ -6,7 +6,6 @@ int main()
 {
     list list = {};
     InitList(&list, 10);
-    ListPrint(&list);
     //GraphDump(&list, "log/graphviz_file.txt");
     printf("\n");
 
@@ -24,9 +23,10 @@ int main()
     //GraphDump(&list, "log/graphviz_file.txt"); 
     #define __CALL_DUMP_LINE __LINE__
 
-    ListAdd(&list, 50, 3);
-    GraphDump(&list, "log/graphviz_file.txt");
+    ListAdd(&list, 50, 2);
+    // GraphDump(&list, "log/graphviz_file.txt");
+    ListDelete(&list,3);
     ListPrint(&list);
-
+    GraphDump(&list, "log/graphviz_file.txt");
     DestroyList(&list);
 }

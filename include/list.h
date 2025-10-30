@@ -7,12 +7,13 @@
 struct list
 {
     double* data = NULL;
-    int* next = NULL;
+    size_t* next = NULL;
     int head = NAN;
     int* prev = NULL;
-    int tail = NAN;
-    int free = NAN;
+    size_t tail = NAN;
+    size_t free = NAN;
     FILE* dump_file = NULL;
+    size_t capacity = NAN;
 };
 
 void InitList(list* list, size_t capacity);
