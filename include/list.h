@@ -18,9 +18,6 @@ struct list
 
 void InitList(list* list, size_t capacity);
 void DestroyList(list* list);
-
-// TODO insert to end
-// TODO find element by value
 void ListAdd(list* list, double element, size_t index_previous); // TODO insert
 void ListDelete(list* list, size_t index_previous);
 #endif

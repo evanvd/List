@@ -61,8 +61,6 @@ void DestroyList(list* list)
     }
 }
 
-
-
 void ListAdd(list* list, double element, size_t index_previous)
 {
     if (list == NULL) 
@@ -74,9 +72,9 @@ void ListAdd(list* list, double element, size_t index_previous)
            element, index_previous, list->free, list->capacity);
 
 
-    if (list->free == 1 && list->next[0] == 0)
+    if ((list->free == 1 && list->next[1] == 0) || index_previous == 0)
     {
-        // printf("empty list - adding first element\n");
+         printf("empty list - adding first element\n");
         size_t new_index = list->free;
         
         list->data[new_index] = element;
@@ -87,8 +85,8 @@ void ListAdd(list* list, double element, size_t index_previous)
         list->next[0] = new_index;
         list->prev[0] = 0;
         
-        list->head = new_index;
-        list->tail = new_index;
+        list->head = 1;
+        list->tail = 1;
         
 
         list->free = 2;  
@@ -98,7 +96,7 @@ void ListAdd(list* list, double element, size_t index_previous)
     
     if (index_previous == list->tail)
     {
-        // printf("adding to tail\n");
+        printf("adding to tail\n");
         size_t new_index = list->free;
         
         list->data[new_index] = element;
@@ -108,6 +106,7 @@ void ListAdd(list* list, double element, size_t index_previous)
         list->next[list->tail] = new_index;
         list->tail = new_index;
         
+        list->next[index_previous] = new_index;
         list->free = list->next[new_index];
         return;
     }
