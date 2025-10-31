@@ -65,8 +65,11 @@ void WriteToDot(list* list, FILE* log_file)
     fprintf(log_file, "node1");
     for (size_t index = list->next[1]; index != 0; index = list->next[index])
     {   
-        fprintf(log_file, "->node%lu", index);
-
+        if (list->prev[index] == -1)
+        {
+            continue;
+        }
+        fprintf(log_file, "->node%lu", index);        
     }
     fprintf(log_file, ";\n");
 

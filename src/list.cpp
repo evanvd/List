@@ -12,32 +12,39 @@ void InitList(list* list, size_t capacity)
     list->prev = (int*)calloc(capacity, sizeof(int));
     list->next = (size_t*)calloc(capacity, sizeof(size_t));
     
-    if (list->data == NULL || list->prev == NULL || list->next == NULL) {
-        fprintf(stderr, "Memory allocation failed in InitList\n");
+    if (list->data == NULL || list->prev == NULL || list->next == NULL) 
+    {
+        printf("Memory allocation failed in InitList\n");
         abort();
     }
 
     list->dump_file = fopen("dump.html", "w");
-    if (list->dump_file == NULL) {
-        fprintf(stderr, "Failed to open dump file\n");
+    if (list->dump_file == NULL) 
+    {
+        printf("Failed to open dump file\n");
     }
 
-    list->data[0] = CANARY;
+    list->capacity = capacity;
     list->head = 1;
     list->tail = 1;
+    list->free = 1; 
+    
+    list->data[0] = CANARY;
     list->next[0] = 0;  
     list->prev[0] = 0;
-    list->free = 1; 
-    list->capacity = capacity;  
 
     for (size_t index = 1; index < capacity; index++)
     {
         list->data[index] = POIZON;
-        list->next[index] = index + 1;  
         list->prev[index] = -1;
-    }
-    if (capacity > 1) {
-        list->next[capacity - 1] = 0;
+        
+        if (index < capacity - 1) 
+        {
+            list->next[index] = index + 1;
+        } else 
+        {
+            list->next[index] = 0; 
+        }
     }
 }
 
@@ -58,58 +65,71 @@ void DestroyList(list* list)
 
 void ListAdd(list* list, double element, size_t index_previous)
 {
-    if(list->free == 1)
+    if (list == NULL) 
     {
-        printf("empty list\n");
-        list->data[list->free] = element;
-        list->next[list->free] = 0;
-        list->prev = 0;
-        list->tail = 1;
-        list->free = 2;
+        printf("Error: list is NULL in ListAdd\n");
         return;
     }
-    if(index_previous == 0)
-    {
-        // TODO why?..
-        // ⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠛⢉⢉⠉⠉⠻⣿⣿⠛⠛⣤⣤⣤⣤⢸⣿⣿⣿⣿⣿
-        // ⣿⣿⣿⣿⣿⣿⣿⠟⠠⡰⣕⣗⣷⣧⣀⣅⠘⠛⠄⣿⣿⣿⠛⣿⢸⣿⣿⣿⣿⣿
-        // ⣿⣿⣿⣿⣿⣿⠃⣠⣳⣟⣿⣿⠿⣿⡿⣜⠄⣿⣤⣤⣤⠛⠛⣤⣿⣿⣿⣿⣿⣿
-        // ⣿⣿⣿⠟⣩⣬⣭⠻⢷⣿⣿⣿⣀⡿⣝⠖⠄⣿⣿⠛⣤⣿⠛⠛⣤⣤⣤⣤⢸⣿
-        // ⣿⣿⣷⣤⣒⠲⠶⢿⣿⢷⣯⢿⢷⡫⣗⠍⢰⣿⠛⣤⣿⠛⠘⣿⣿⣿⠛⣿⢸
-        // ⣿⣿⣿⡏⢀⢄⠤⣁⠋⠿⣗⣟⡯⡏⢎⠁⢸⠄⣿⠛⠛⣤⣿⣤⣤⣤⠛⠛⣤⣿
-        // ⣿⣿⣿⠄⢔⢕⣯⣿⣿⡲⡤⡄⡤⠄⡀⢠⡀⡀⣤⣿⣿⣿⠛⠛⣤⣤⣤⣤⢸⣿
-        // ⣿⡿⢉⣴⣶⣦⠙⣿⣿⣿⡼⣿⣿⣿⣿⣿⢿⣷⡌⢿⠛⣤⠄⣿⣿⣿⠛⣿⢸⣿
-        // ⣿⣷⡘⠿⠟⣛⡁⢻⣿⣿⣿⣷⣝⢿⣿⠻⣿⢮⣭⣥⣄⡹⣤⣤⣤⠛⠛⣤⣿
-        // ⣿⣿⡇⢿⣿⣿⣿⠘⣿⣿⣿⣿⣿⣷⣦⣟⡶⠶⢾⣭⣽⣗⡈⠻⠛⣤⣿⣿⣿
-        // ⣿⣿⣷⡈⣿⣿⣿⣧⣌⠛⠿⣿⣿⣿⣿⣿⣿⣷⣷⡲⣶⣶⣾⣷⣌⡛⢿⣿⣿⣿
-        // ⣿⣿⣿⠗⡈⠻⣿⣿⡿⢛⣶⣤⣍⠻⣿⣿⣿⣿⣿⡿⠆⠻⠿⣿⣿⡿⠗⣢⣿
-        // ⣿⣿⡏⢼⣿⣷⣶⢋⣴⣿⣿⣿⣿⡇⢀⣠⠄⣠⣶⣶⣿⣿⣷⣶⣶⣶⣿⣿⣿
-        // ⣿⣿⣷⣌⠛⠿⠛⠈⠛⠿⠿⠿⢛⠁⢈⣴⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-        // ⣿⣿⣿⣿⣿⣿⣇⡈⢉⣩⡭⠽⢛⣒⣒⣒⣈⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-        // ⣿⣿⣿⣿⣿⣿⣿⣇⣉⣥⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
-    }
+    printf("ListAdd: element=%f, index_previous=%lu, free=%lu, capacity=%lu\n", 
+           element, index_previous, list->free, list->capacity);
 
-    if(index_previous == (size_t)list->tail)
-    {
-        printf("tail index\n");
-        list->data[list->free] = element;
-        list->tail = list->free;
 
-        printf("%lu\n",  list->next[list->free]);
+    if (list->free == 1 && list->next[0] == 0)
+    {
+        // printf("empty list - adding first element\n");
+        size_t new_index = list->free;
         
-        size_t next_free = -list->next[list->free];
-        list->next[list->free] = 0;
-        list->free = next_free;
-        list->next[index_previous] = list->tail;
+        list->data[new_index] = element;
+        list->next[new_index] = 0;
+        list->prev[new_index] = 0;
+        
+
+        list->next[0] = new_index;
+        list->prev[0] = 0;
+        
+        list->head = new_index;
+        list->tail = new_index;
+        
+
+        list->free = 2;  
         return;
     }
-    size_t next_free = list->next[list->free];
-    list->data[list->free] = element;
-    list->next[list->free] = list->next[index_previous];
 
-    list->prev[index_previous] = index_previous;
+    
+    if (index_previous == list->tail)
+    {
+        // printf("adding to tail\n");
+        size_t new_index = list->free;
+        
+        list->data[new_index] = element;
+        list->prev[new_index] = list->tail;
+        list->next[new_index] = 0;  
+        
+        list->next[list->tail] = new_index;
+        list->tail = new_index;
+        
+        list->free = list->next[new_index];
+        return;
+    }
 
-    list->next[index_previous] = list->free; 
+    // printf("adding to middle\n");
+    size_t new_index = list->free;
+    size_t next_free = list->next[new_index];
+    
+    list->data[new_index] = element;
+    list->next[new_index] = list->next[index_previous];
+    list->prev[new_index] = index_previous;
+    
+
+    list->next[index_previous] = new_index;
+    
+
+    if (list->next[new_index] != 0 && list->next[new_index] < list->capacity)
+    {
+        list->prev[list->next[new_index]] = new_index;
+    }
+    
+
     list->free = next_free;
 }
 
