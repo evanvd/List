@@ -63,18 +63,13 @@ void DestroyList(list* list)
 
 void ListAdd(list* list, double element, size_t index_previous)
 {
-    if (list == NULL) 
-    {
-        printf("Error: list is NULL in ListAdd\n");
-        return;
-    }
+    
     printf("ListAdd: element=%f, index_previous=%lu, free=%lu, capacity=%lu\n", 
            element, index_previous, list->free, list->capacity);
 
-
     if ((list->free == 1 && list->next[1] == 0) || index_previous == 0)
     {
-         printf("empty list - adding first element\n");
+        printf("empty list - adding first element\n");
         size_t new_index = list->free;
         
         list->data[new_index] = element;
@@ -83,7 +78,7 @@ void ListAdd(list* list, double element, size_t index_previous)
         
 
         list->next[0] = new_index;
-        list->prev[0] = 0;
+        list->prev[1] = 0;
         
         list->head = 1;
         list->tail = 1;
@@ -111,22 +106,15 @@ void ListAdd(list* list, double element, size_t index_previous)
         return;
     }
 
-    // printf("adding to middle\n");
+    printf("adding to middle\n");
     size_t new_index = list->free;
     size_t next_free = list->next[new_index];
     
-    list->data[new_index] = element;
-    list->next[new_index] = list->next[index_previous];
-    list->prev[new_index] = index_previous;
-    
-
-    list->next[index_previous] = new_index;
-    
-
-    if (list->next[new_index] != 0 && list->next[new_index] < list->capacity)
-    {
-        list->prev[list->next[new_index]] = new_index;
-    }
+    list->data[list->free] = element;
+    list->next[list->free] = list->next[index_previous];
+    printf("%lu %lu\n", new_index, list->next[index_previous]);
+    list->next[index_previous] = new_index; 
+    list->free = next_free;
     
 
     list->free = next_free;
@@ -143,3 +131,4 @@ void ListDelete(list* list, size_t index)
     // list->free = next_free;
     list->next[index] = list->next[list->next[index]];
 }
+

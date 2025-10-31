@@ -6,24 +6,28 @@ int main()
 {
     list list = {};
     InitList(&list, 10);
-    __Dump__(&list, "log/graphviz_file.txt");
-    printf("\n");
 
-    ListAdd(&list, 10, 0);
-    __Dump__(&list, "log/graphviz_file.txt");
-    ListAdd(&list, 30, 2);
-    ListPrint(&list);
-    
-    ListAdd(&list, 20, 3);
-    __Dump__(&list, "log/graphviz_file.txt");
-    ListAdd(&list, 40, 4);
-    
-    __Dump__(&list, "log/graphviz_file.txt"); 
+    __Dump__("log/graphviz_file.txt");
     
 
-    ListAdd(&list, 50, 5);
-    __Dump__(&list, "log/graphviz_file.txt");
+    ListAdd(&list, 10, 1);
+    __Dump__("log/graphviz_file.txt");
+    
+    ListAdd(&list, 30, 1);
+    __Dump__("log/graphviz_file.txt");
+    
+    ListAdd(&list, 20, 1);
+    __Dump__("log/graphviz_file.txt");
+    ListAdd(&list, 40, 1);
+    
+    __Dump__("log/graphviz_file.txt"); 
+    
+
+    ListAdd(&list, 50, 1);
+    __Dump__("log/graphviz_file.txt");
+
     ListDelete(&list,3);
-    __Dump__(&list, "log/graphviz_file.txt");
+    __Dump__("log/graphviz_file.txt");
+    
     DestroyList(&list);
 }

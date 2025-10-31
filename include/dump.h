@@ -2,7 +2,7 @@
 #include "list.h"
 
 
-#define __Dump__(list, filename) GraphDump(list, filename, __FILE__, __LINE__); ListPrint(list);
+#define __Dump__(filename) ListPrint(&list);GraphDump(&list, filename, __FILE__, __LINE__); 
 void GraphDump(list* list, const char* filename, const char* file, int line);
 
 void ListPrint(list* list);
