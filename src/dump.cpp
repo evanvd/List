@@ -4,9 +4,8 @@
 
 const size_t capacity = 10;
 
-void GraphDump(list* list, const char* filename, const char* file, int line)
+void GraphDump_debug(list* list, const char* filename, const char* file, int line)
 {
-    __VERIFY__;
     // if (list->next[1] < 0)
     // {
     //     printf("list->next[1] %d\n",list->next[1]);
@@ -21,7 +20,7 @@ void GraphDump(list* list, const char* filename, const char* file, int line)
     fclose(log_file);
     
     CallCommand(count_dump);
-    __DumpToHtml__;
+    DumpToHtml(list, count_dump, file, line);
     count_dump++;
 }
 
@@ -89,8 +88,8 @@ void CallCommand(size_t count_dump)
 
 void DumpToHtml(list* list, size_t count_dump, const char* file, int line)
 {
-    char dump_str[40] = {};
-    snprintf(dump_str, sizeof(dump_str), "<h1>====DUMP FROM %s:%d>====</h1>\n", file, line);
+    char dump_str[120] = {};
+    snprintf(dump_str, sizeof(dump_str), "<h1>DUMP FROM %s:%d at %s()</h1>\n", file, line, __FUNCTION__);
     fprintf(list->dump_file, "%s",dump_str);
 
     char img_name[40] = {};

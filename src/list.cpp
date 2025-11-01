@@ -67,24 +67,25 @@ void ListAdd(list* list, double element, size_t index_previous)
     printf("ListAdd: element=%f, index_previous=%lu, free=%lu, capacity=%lu\n", 
            element, index_previous, list->free, list->capacity);
 
-    if ((list->free == 1 && list->next[1] == 0) || index_previous == 0)
+    if (list->next[0] == 0 || index_previous == 0)
     {
         printf("empty list - adding first element\n");
         size_t new_index = list->free;
+        size_t next_free = list->next[new_index]; // Save next free index before we use this slot
         
         list->data[new_index] = element;
         list->next[new_index] = 0;
         list->prev[new_index] = 0;
         
 
-        list->next[0] = new_index;
-        list->prev[1] = 0;
+        list->next[0] = new_index;  // Update the head pointer at index 0
+        list->prev[new_index] = 0;  // Set prev of new element to 0
         
-        list->head = 1;
-        list->tail = 1;
+        list->head = new_index;     // Update head
+        list->tail = new_index;     // Update tail
         
 
-        list->free = 2;  
+        list->free = next_free;     // Update free to next free slot
         return;
     }
 
@@ -93,6 +94,7 @@ void ListAdd(list* list, double element, size_t index_previous)
     {
         printf("adding to tail\n");
         size_t new_index = list->free;
+        size_t next_free = list->next[new_index];
         
         list->data[new_index] = element;
         list->prev[new_index] = list->tail;
@@ -101,8 +103,7 @@ void ListAdd(list* list, double element, size_t index_previous)
         list->next[list->tail] = new_index;
         list->tail = new_index;
         
-        list->next[index_previous] = new_index;
-        list->free = list->next[new_index];
+        list->free = next_free;
         return;
     }
 
@@ -110,10 +111,17 @@ void ListAdd(list* list, double element, size_t index_previous)
     size_t new_index = list->free;
     size_t next_free = list->next[new_index];
     
-    list->data[list->free] = element;
-    list->next[list->free] = list->next[index_previous];
+    list->data[new_index] = element;
+    list->next[new_index] = list->next[index_previous];
+    list->prev[new_index] = index_previous;
     printf("%lu %lu\n", new_index, list->next[index_previous]);
     list->next[index_previous] = new_index; 
+    
+    if (list->next[new_index] != 0 && list->next[new_index] < list->capacity)
+    {
+        list->prev[list->next[new_index]] = new_index;
+    }
+    
     list->free = next_free;
     
 
@@ -122,13 +130,43 @@ void ListAdd(list* list, double element, size_t index_previous)
 
 void ListDelete(list* list, size_t index)
 {
-    //TODO verify
-    // int next_free = list->data[index_previous];
+    if (list == NULL || index == 0 || index >= list->capacity) 
+    {
+        printf("Error: invalid parameters in ListDelete\n");
+        return;
+    }
 
-    // list->data[index_previous] = POIZON;
-    // list->next[index_previous] = list->free;
-    
-    // list->free = next_free;
-    list->next[index] = list->next[list->next[index]];
+    // Update the previous node's next pointer to skip the current node
+    if (list->prev[index] != -1 && list->prev[index] != 0) 
+    {
+        list->next[list->prev[index]] = list->next[index];
+    } 
+    else 
+    {
+        // If this is the head, update head
+        if (list->head == index) 
+        {
+            list->head = list->next[index];
+        }
+    }
+
+    // Update the next node's previous pointer
+    if (list->next[index] != 0) 
+    {
+        list->prev[list->next[index]] = list->prev[index];
+    } 
+    else 
+    {
+        // If this is the tail, update tail
+        if (list->tail == index) 
+        {
+            list->tail = list->prev[index];
+        }
+    }
+
+    // Add the deleted node to the free list
+    list->next[index] = list->free;
+    list->data[index] = POIZON;  // Mark as deleted
+    list->free = index;
 }
 

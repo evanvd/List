@@ -9,12 +9,12 @@ struct list
 {
     double* data = NULL;
     size_t* next = NULL;
-    int head = NAN;
+    size_t head = 0;  // Changed from int to size_t
     int* prev = NULL;
-    size_t tail = NAN;
-    size_t free = NAN;
+    size_t tail = 0;  // Changed from size_t NAN to size_t 0
+    size_t free = 0;  // Changed from size_t NAN to size_t 0
     FILE* dump_file = NULL;
-    size_t capacity = NAN;
+    size_t capacity = 0;  // Changed from size_t NAN to size_t 0
 };
 
 void InitList(list* list, size_t capacity);
