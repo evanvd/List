@@ -10,10 +10,10 @@ int main()
     __Dump__(&list, "log/graphviz_file.txt");
     
 
-    ListAdd(&list, 10, 1);
+    ListAdd(&list, 10, 0);
     __Dump__(&list, "log/graphviz_file.txt");
     
-    ListAdd(&list, 30, 2);
+    ListAdd(&list, 30, 1);
     __Dump__(&list, "log/graphviz_file.txt");
     
     ListAdd(&list, 20, 1);

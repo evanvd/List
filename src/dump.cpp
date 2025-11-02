@@ -12,6 +12,7 @@ void GraphDump_debug(list* list, const char* filename, const char* file, int lin
     //     printf("empty list\n");
     //     return;
     // }
+    __VERIFY__;
 
     static size_t count_dump = 1;    
     
@@ -24,21 +25,25 @@ void GraphDump_debug(list* list, const char* filename, const char* file, int lin
     count_dump++;
 }
 
-void ListPrint(list* list)
+void ListPrint(list* list, const char* file, const int line)
 {
     __VERIFY__;
+    printf("\n====DUMP from %s:%d====", file, line);
     for (size_t index = 1; index != 0; index = list->next[index])
     {
-        printf("\ndata[%lu] %lf\n", index, list->data[index]);
-        printf("next[%lu] %lu\n", index, list->next[index]);
-        printf("free %lu\n", list->free);
+        printf("\ndata[%lu] = %lf\t", index, list->data[index]);
+        printf("next[%lu] =  %lu\t", index, list->next[index]);
+        printf("prev[%lu] = %d\t", index, list->prev[index]);
+        printf("free = %lu\n", list->free);
         if (list->free == 1)
         {
             printf("empty list\n");
             return;
         }
         //getchar();
-    }
+    }   
+    printf("=================================\n\n");
+
 } 
 
 void WriteToDot(list* list, FILE* log_file)
