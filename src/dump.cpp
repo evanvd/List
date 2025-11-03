@@ -6,12 +6,6 @@ const size_t capacity = 10;
 
 void GraphDump_debug(list* list, const char* filename, const char* file, int line)
 {
-    // if (list->next[1] < 0)
-    // {
-    //     printf("list->next[1] %d\n",list->next[1]);
-    //     printf("empty list\n");
-    //     return;
-    // }
     __VERIFY__;
 
     static size_t count_dump = 1;    
@@ -28,28 +22,38 @@ void GraphDump_debug(list* list, const char* filename, const char* file, int lin
 void ListPrint(list* list, const char* file, const int line)
 {
     __VERIFY__;
-    printf("\n====DUMP from %s:%d====", file, line);
+ 
+    printf("\n====DUMP from %s:%d====\n", file, line);
+ 
     for (size_t index = 1; index != 0; index = list->next[index])
     {
-        printf("\ndata[%lu] = %lf\t", index, list->data[index]);
-        printf("next[%lu] =  %lu\t", index, list->next[index]);
-        printf("prev[%lu] = %d\t", index, list->prev[index]);
-        printf("free = %lu\n", list->free);
         if (list->free == 1)
         {
             printf("empty list\n");
+            printf("=================================\n\n");
             return;
         }
-        //getchar();
-    }   
-    printf("=================================\n\n");
 
+        printf("data[%lu] = %lf\t", index, list->data[index]);
+        
+        printf("next[%lu] =  %lu\t", index, list->next[index]);
+        
+        printf("prev[%lu] = %d\t", index, list->prev[index]);
+        
+        printf("free = %lu\n", list->free);
+    }   
+
+    printf("=================================\n\n");
 } 
 
 void WriteToDot(list* list, FILE* log_file)
 {
     fprintf(log_file, "digraph {\n");
-    
+
+    fprintf(log_file, "HEAD [shape = record, label = \"Head\", style =  filled, fillcolor = \"green\"];\n");
+    fprintf(log_file, "TAIL [shape = record, label = \"Tail\", style =  filled, fillcolor = \"red\"];\n");
+
+
     fprintf(log_file, "rankdir=LR;\n ranksep=0.5;\n nodesep = 0.3;");
 
     for (size_t index = 1; index < capacity; index++)
@@ -79,7 +83,8 @@ void WriteToDot(list* list, FILE* log_file)
     }
     fprintf(log_file, ";\n");
 
-    
+    fprintf(log_file, "HEAD->node%lu\n", list->head);
+    fprintf(log_file, "TAIL->node%lu\n", list->tail);
     fprintf(log_file, "}");
 }
 
@@ -94,7 +99,7 @@ void CallCommand(size_t count_dump)
 void DumpToHtml(list* list, size_t count_dump, const char* file, int line)
 {
     char dump_str[120] = {};
-    snprintf(dump_str, sizeof(dump_str), "<h1>DUMP FROM %s:%d at %s()</h1>\n", file, line, __FUNCTION__);
+    snprintf(dump_str, sizeof(dump_str), "<h1>DUMP FROM %s:%d\n", file, line);
     fprintf(list->dump_file, "%s",dump_str);
 
     char img_name[40] = {};

@@ -10,23 +10,26 @@ int main()
     __Dump__(&list, "log/graphviz_file.txt");
     
 
-    ListAdd(&list, 10, 0);
+    ListInsert(&list, 10, 0);
     __Dump__(&list, "log/graphviz_file.txt");
     
-    ListAdd(&list, 30, 1);
+    ListInsert(&list, 30, 1);
     __Dump__(&list, "log/graphviz_file.txt");
+
+    //FIXME ADD ability to insert before first element
+    //__Dump__(&list, "log/graphviz_file.txt");
     
-    ListAdd(&list, 20, 1);
+    ListInsert(&list, 20, 1);
     __Dump__(&list, "log/graphviz_file.txt");
-    ListAdd(&list, 40, 3);
+    ListInsert(&list, 40, 2);
     
     __Dump__(&list, "log/graphviz_file.txt"); 
     
 
-    ListAdd(&list, 50, 4);
+    ListInsert(&list, 50, 4);
     __Dump__(&list, "log/graphviz_file.txt");
 
-    ListDelete(&list,3);
+    ListDelete(&list,2);
     __Dump__(&list, "log/graphviz_file.txt");
     
     DestroyList(&list);

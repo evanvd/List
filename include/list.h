@@ -9,17 +9,17 @@ struct list
 {
     double* data = NULL;
     size_t* next = NULL;
-    size_t head = 0;  // Changed from int to size_t
+    size_t head = 0;
     int* prev = NULL;
-    size_t tail = 0;  // Changed from size_t NAN to size_t 0
-    size_t free = 0;  // Changed from size_t NAN to size_t 0
+    size_t tail = 0;
+    size_t free = 0;
     FILE* dump_file = NULL;
-    size_t capacity = 0;  // Changed from size_t NAN to size_t 0
+    size_t capacity = 0;
 };
 
 void InitList(list* list, size_t capacity);
 void DestroyList(list* list);
-void ListAdd(list* list, double element, size_t index_previous); // TODO insert
+void ListInsert(list* list, double element, size_t index_previous); 
 void ListDelete(list* list, size_t index_previous);
 
 #define __VERIFY__ \
