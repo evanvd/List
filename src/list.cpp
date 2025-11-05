@@ -63,7 +63,7 @@ void DestroyList(list* list)
 
 void ListInsert(list* list, double element, size_t index_previous)
 {
-    
+    __VERIFY__;    
     printf("\nListInsert: element = %f, index_previous = %lu, free = %lu, capacity = %lu\n", 
            element, index_previous, list->free, list->capacity);
 
@@ -124,11 +124,13 @@ void ListInsert(list* list, double element, size_t index_previous)
     list->free = next_free;
     
 
-    list->free = next_free;
+    __VERIFY__;
 }
 
 void ListDelete(list* list, size_t index)
 {
+    __VERIFY__;
+
     if (list == NULL || index == 0 || index >= list->capacity) 
     {
         printf("Error: invalid parameters in ListDelete\n");
@@ -162,4 +164,6 @@ void ListDelete(list* list, size_t index)
     list->next[index] = list->free;
     list->data[index] = POIZON; 
     list->free = index;
+
+    __VERIFY__;
 }

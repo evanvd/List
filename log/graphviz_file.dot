@@ -2,6 +2,7 @@ digraph {
 
 HEAD [shape = record, label = "Head", style =  filled, fillcolor = "green"];
 TAIL [shape = record, label = "Tail", style =  filled, fillcolor = "red"];
+Free [shape = record, label = "Free", style =  filled, fillcolor = "yellow"];
 rankdir=LR;
  ranksep=0.5;
  nodesep = 0.3;node1 [shape=record,label=" 1 |element =  10.000000 |{<f0> next = 3  | prev  = 0}", style=filled, fillcolor=lightblue, width=3, height=0.8];
@@ -19,4 +20,5 @@ edge [color=green, penwidth=1, arrowhead = normal];
 node1->node3->node4->node5;
 HEAD->node1
 TAIL->node5
+Free->node6
 }

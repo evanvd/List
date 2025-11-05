@@ -52,6 +52,7 @@ void WriteToDot(list* list, FILE* log_file)
 
     fprintf(log_file, "HEAD [shape = record, label = \"Head\", style =  filled, fillcolor = \"green\"];\n");
     fprintf(log_file, "TAIL [shape = record, label = \"Tail\", style =  filled, fillcolor = \"red\"];\n");
+    fprintf(log_file, "Free [shape = record, label = \"Free\", style =  filled, fillcolor = \"yellow\"];\n");
 
 
     fprintf(log_file, "rankdir=LR;\n ranksep=0.5;\n nodesep = 0.3;");
@@ -85,6 +86,8 @@ void WriteToDot(list* list, FILE* log_file)
 
     fprintf(log_file, "HEAD->node%lu\n", list->head);
     fprintf(log_file, "TAIL->node%lu\n", list->tail);
+    fprintf(log_file, "Free->node%lu\n", list->free);
+
     fprintf(log_file, "}");
 }
 
