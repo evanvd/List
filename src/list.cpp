@@ -163,6 +163,7 @@ void ListDelete(list* list, size_t index)
 
     list->next[index] = list->free;
     list->data[index] = POIZON; 
+    list->prev[index] = -1;
     list->free = index;
 
     __VERIFY__;

@@ -25,10 +25,10 @@ int main()
     
     __Dump__(&list, "log/graphviz_file.txt"); 
     
-
+    
     ListInsert(&list, 50, 4);
     __Dump__(&list, "log/graphviz_file.txt");
-
+    
     ListDelete(&list,2);
     __Dump__(&list, "log/graphviz_file.txt");
     

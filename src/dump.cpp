@@ -48,7 +48,7 @@ void ListPrint(list* list, const char* file, const int line)
 
 void WriteToDot(list* list, FILE* log_file)
 {
-    fprintf(log_file, "digraph {\n");
+    fprintf(log_file, "digraph {\n splines=ortho;\n");
 
     fprintf(log_file, "HEAD [shape = record, label = \"Head\", style =  filled, fillcolor = \"green\"];\n");
     fprintf(log_file, "TAIL [shape = record, label = \"Tail\", style =  filled, fillcolor = \"red\"];\n");
@@ -59,9 +59,15 @@ void WriteToDot(list* list, FILE* log_file)
 
     for (size_t index = 1; index < capacity; index++)
     {
-        fprintf(log_file, "node%lu [shape=record,label=\" %lu |element =  %f |{<f0> next = %lu  | prev  = %d}\", style=filled, fillcolor=lightblue, width=3, height=0.8];\n", index, index, list->data[index], list->next[index], list->prev[index]);
+        if (list->prev[index] == -1)
+        {
+            fprintf(log_file, "node%lu [shape=record,label=\" %lu |element =  PZN |{<f0> next = %lu  | prev  = %d}\", style=\"filled, rounded\", fillcolor = \"#ff3434bd\", width=3, height=0.8];\n", index, index, list->next[index], list->prev[index]);
+        }
+        else
+        {
+            fprintf(log_file, "node%lu [shape=record,label=\" %lu |element =  %.2f |{<f0> next = %lu  | prev  = %d}\", style=\"filled, rounded\", fillcolor = lightblue, width=3, height=0.8];\n", index, index, list->data[index], list->next[index], list->prev[index]);
+        }   
     }
-
 
     fprintf(log_file, "node1");
     for (size_t index = 1; index < capacity; index++)
@@ -70,7 +76,7 @@ void WriteToDot(list* list, FILE* log_file)
     }
     
     fprintf(log_file, "\n");
-    fprintf(log_file, "[style=invis, weight=100];\n edge [color=green, penwidth=1, arrowhead = normal];\n");
+    fprintf(log_file, "[style=invis, weight=100];\n edge [color=\"#001affff\", penwidth = 1, arrowhead = normal];\n");
     
 
     fprintf(log_file, "node1");
@@ -87,7 +93,7 @@ void WriteToDot(list* list, FILE* log_file)
     fprintf(log_file, "HEAD->node%lu\n", list->head);
     fprintf(log_file, "TAIL->node%lu\n", list->tail);
     fprintf(log_file, "Free->node%lu\n", list->free);
-
+    
     fprintf(log_file, "}");
 }
 
@@ -102,8 +108,26 @@ void CallCommand(size_t count_dump)
 void DumpToHtml(list* list, size_t count_dump, const char* file, int line)
 {
     char dump_str[120] = {};
-    snprintf(dump_str, sizeof(dump_str), "<h1>DUMP FROM %s:%d\n", file, line);
+    snprintf(dump_str, sizeof(dump_str), "<h1 style=\"color: #8a0000ff;\">====DUMP FROM %s:%d====</h1>\n", file, line);
     fprintf(list->dump_file, "%s",dump_str);
+
+    for(size_t index = 1; index != 0; index = list->next[index])
+    {
+        if (list->free == 1)
+        {
+            fprintf(list->dump_file, "empty list<br>\n");
+            fprintf(list->dump_file, "=================================<br>\n\n");
+            break;
+        }
+
+        fprintf(list->dump_file, "data[%lu] = %.2f\t", index, list->data[index]);
+        
+        fprintf(list->dump_file, "next[%lu] =  %lu\t", index, list->next[index]);
+        
+        fprintf(list->dump_file, "prev[%lu] = %d\t", index, list->prev[index]);
+        
+        fprintf(list->dump_file, "free = %lu<br>", list->free);
+    }   
 
     char img_name[40] = {};
     snprintf(img_name, sizeof(img_name), "<img src = \"log/graph%lu.png\"/>\n",  count_dump);
