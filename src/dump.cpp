@@ -92,12 +92,10 @@ void WriteToDot(list* list, FILE* log_file)
         fprintf(log_file, "->node%lu", index);        
     }
     fprintf(log_file, ";\n");
-
-    fprintf(log_file, "HEAD->node%lu\n", list->head);
-    fprintf(log_file, "TAIL->node%lu\n", list->tail);
-    fprintf(log_file, "Free->node%lu\n", list->free);
     
-    fprintf(log_file, "\n");
+    fprintf(log_file, "subgraph {rank = same; HEAD; node%lu; HEAD->node%lu }\n", list->head, list->head);
+    fprintf(log_file, "subgraph {rank = same; TAIL; node%lu; TAIL->node%lu }\n", list->tail, list->tail);
+    fprintf(log_file, "subgraph {rank = same; Free; node%lu; Free->node%lu }\n", list->free, list->free);
     fprintf(log_file, "}");
 }
 
