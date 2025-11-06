@@ -5,7 +5,7 @@
 int main()
 {
     list list = {};
-    InitList(&list, 10);
+    InitList(&list, 8);
 
     __Dump__(&list, "log/graphviz_file.txt");
     

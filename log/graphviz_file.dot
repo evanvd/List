@@ -14,18 +14,14 @@ node6 [shape=record,label=" 6 |element =  PZN |{<f0> next = 7  | prev  = -1}", s
 node7 [shape=record,label=" 7 |element =  PZN |{<f0> next = 8  | prev  = -1}", style="filled, rounded", fillcolor = "#ff3434bd", width=3, height=0.8];
 node8 [shape=record,label=" 8 |element =  PZN |{<f0> next = 9  | prev  = -1}", style="filled, rounded", fillcolor = "#ff3434bd", width=3, height=0.8];
 node9 [shape=record,label=" 9 |element =  PZN |{<f0> next = 0  | prev  = -1}", style="filled, rounded", fillcolor = "#ff3434bd", width=3, height=0.8];
-node1->node1->node2->node3->node4->node5->node6->node7->node8->node9
+list_info [shape=record,label=" Free =  2 |TAIL = 0  | HEAD  = -1", style="filled, rounded", fillcolor = "#56ff34bd", width=3, height=0.8];
+list_info->node1->node1->node2->node3->node4->node5->node6->node7->node8->node9
 [style=invis, weight=100];
  edge [color=green, penwidth = 1, arrowhead = normal];
 node1->node3->node4->node5;
 
 edge [color=blue, penwidth = 1, arrowhead = normal];
-    subgraph {
-        rank = same
-        HEAD;
-        node1;
-        HEAD->node1
-    }
+    subgraph { rank = same HEAD; node1; HEAD->node1 }
     subgraph {
         rank = same
         TAIL;

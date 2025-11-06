@@ -2,7 +2,7 @@
 #include "dump.h"
 #include <string.h>
 
-const size_t capacity = 10;
+
 
 void GraphDump_debug(list* list, const char* filename, const char* file, int line)
 {
@@ -57,20 +57,23 @@ void WriteToDot(list* list, FILE* log_file)
 
     fprintf(log_file, "rankdir=LR;\n ranksep=0.5;\n nodesep = 0.3;");
 
-    for (size_t index = 1; index < capacity; index++)
+    for (size_t index = 1; index < list->capacity; index++)
     {
         if (list->prev[index] == -1)
         {
-            fprintf(log_file, "node%lu [shape=record,label=\" %lu |element =  PZN |{<f0> next = %lu  | prev  = %d}\", style=\"filled, rounded\", fillcolor = \"#ff3434bd\", width=3, height=0.8];\n", index, index, list->next[index], list->prev[index]);
+            fprintf(log_file, "node%lu [shape=record,label=\" phys idx %lu |element =  PZN |{<f0> next = %lu  | prev  = %d}\", style=\"filled, rounded\", fillcolor = \"#ff3434bd\", width=3, height=0.8];\n", index, index, list->next[index], list->prev[index]);
         }
         else
         {
-            fprintf(log_file, "node%lu [shape=record,label=\" %lu |element =  %.2f |{<f0> next = %lu  | prev  = %d}\", style=\"filled, rounded\", fillcolor = lightblue, width=3, height=0.8];\n", index, index, list->data[index], list->next[index], list->prev[index]);
+            fprintf(log_file, "node%lu [shape=record,label=\" phys idx %lu |element =  %.2f |{<f0> next = %lu  | prev  = %d}\", style=\"filled, rounded\", fillcolor = lightblue, width=3, height=0.8];\n", index, index, list->data[index], list->next[index], list->prev[index]);
         }   
     }
 
-    fprintf(log_file, "node1");
-    for (size_t index = 1; index < capacity; index++)
+    fprintf(log_file, "list_info [shape=record,label=\" Free %lu | Tail = %lu  | Head  = %lu\", style=\"filled, rounded\", fillcolor = yellow, width=3, height=0.8];\n", list->free, list->tail, list->head);
+
+
+    fprintf(log_file, "list_info");
+    for (size_t index = 1; index < list->capacity; index++)
     {
         fprintf(log_file, "->node%lu", index);
     }
@@ -94,6 +97,7 @@ void WriteToDot(list* list, FILE* log_file)
     fprintf(log_file, "TAIL->node%lu\n", list->tail);
     fprintf(log_file, "Free->node%lu\n", list->free);
     
+    fprintf(log_file, "\n");
     fprintf(log_file, "}");
 }
 
