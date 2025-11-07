@@ -22,21 +22,21 @@ void DestroyList(list* list);
 void ListInsert(list* list, double element, size_t index_previous); 
 void ListDelete(list* list, size_t index_previous);
 
-#define __VERIFY__ \
-    if (list == NULL)\
-    {\
-        printf("Error: list is NULL in %s\n", __func__);\
-        getchar();\
-    }\
-    for (size_t list_index = 1; list_index < list->capacity; list_index++)\
-    {\
-        if(list->next[list_index] == list_index)\
-        {\
-            printf("Failed, cycle list_index: %lu %s:%d", list_index, __FILE__, __LINE__ );\
-            getchar();\
-            abort();\
-        }\
-    }\
+#define VERIFY_LIST_(list)                                                                                  \
+    if (list == NULL)                                                                               \
+    {                                                                                               \
+        printf("Error: list is NULL in %s\n", __func__);                                            \
+        getchar();                                                                                  \
+    }                                                                                               \
+    for (size_t list_index = 1; list_index < list->capacity; list_index++)                          \
+    {                                                                                               \
+        if(list->next[list_index] == list_index)                                                    \
+        {                                                                                           \
+            printf("Failed, cycle list_index: %lu %s:%d", list_index, __FILE__, __LINE__ );         \
+            getchar();                                                                              \
+            abort();                                                                                \
+        }                                                                                           \
+    }                                                                                               \
 
 
 #endif

@@ -4,9 +4,9 @@
 
 
 
-void GraphDump_debug(list* list, const char* filename, const char* file, int line)
+void GraphDump(list* list, const char* filename, const char* file, int line)
 {
-    __VERIFY__;
+    VERIFY_LIST_(list);
 
     static size_t count_dump = 1;    
     
@@ -21,7 +21,7 @@ void GraphDump_debug(list* list, const char* filename, const char* file, int lin
 
 void ListPrint(list* list, const char* file, const int line)
 {
-    __VERIFY__;
+    VERIFY_LIST_(list);
  
     printf("\n====DUMP from %s:%d====\n", file, line);
  
@@ -118,7 +118,6 @@ void DumpToHtml(list* list, size_t count_dump, const char* file, int line)
         if (list->free == 1)
         {
             fprintf(list->dump_file, "empty list<br>\n");
-            fprintf(list->dump_file, "=================================<br>\n\n");
             break;
         }
 

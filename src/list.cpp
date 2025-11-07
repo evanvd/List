@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "list.h"
 
-const double CANARY = 0xDEAD;
-const double POIZON = 0xDEAD; //TODO  ADD value to consts 
+const double CANARY = 0xBAD1BAD1BAD1BAD1;
+const double POIZON = 0xDEADDEADDEADDEAD;
 
 void InitList(list* list, size_t capacity)
 {
@@ -14,20 +14,20 @@ void InitList(list* list, size_t capacity)
     
     if (list->data == NULL || list->prev == NULL || list->next == NULL) 
     {
-        printf("Memory allocation failed in InitList\n");
-        abort();
+        printf("Memory allocation failed in InitList\n"); // TODO remove
+        abort(); // TODO return error code
     }
 
     list->dump_file = fopen("dump.html", "w");
     if (list->dump_file == NULL) 
     {
-        printf("Failed to open dump file\n");
+        printf("Failed to open dump file\n"); // TODO return error code
     }
 
     list->capacity = capacity;
     list->head = 1;
     list->tail = 1;
-    list->free = 1; 
+    list->free = 1;
     
     list->data[0] = CANARY;
     list->next[0] = 0;  
@@ -50,6 +50,7 @@ void InitList(list* list, size_t capacity)
 
 void DestroyList(list* list)
 {
+    // TODO what if list is NULL (do not use assert in dtor)
     free(list->data);
     free(list->prev);   
     free(list->next);
@@ -63,7 +64,7 @@ void DestroyList(list* list)
 
 void ListInsert(list* list, double element, size_t index_previous)
 {
-    __VERIFY__;    
+    VERIFY_LIST_(list);
     printf("\nListInsert: element = %f, index_previous = %lu, free = %lu, capacity = %lu\n", 
            element, index_previous, list->free, list->capacity);
 
@@ -115,7 +116,7 @@ void ListInsert(list* list, double element, size_t index_previous)
     list->next[new_index] = list->next[index_previous];
     list->prev[new_index] = index_previous;
     list->next[index_previous] = new_index; 
-    
+
     if (list->next[new_index] != 0 && list->next[new_index] < list->capacity)
     {
         list->prev[list->next[new_index]] = new_index;
@@ -124,12 +125,12 @@ void ListInsert(list* list, double element, size_t index_previous)
     list->free = next_free;
     
 
-    __VERIFY__;
+    VERIFY_LIST_(list);
 }
 
 void ListDelete(list* list, size_t index)
 {
-    __VERIFY__;
+    VERIFY_LIST_(list); // TODO VERIFY_(list)
 
     if (list == NULL || index == 0 || index >= list->capacity) 
     {
@@ -166,5 +167,5 @@ void ListDelete(list* list, size_t index)
     list->prev[index] = -1;
     list->free = index;
 
-    __VERIFY__;
+    VERIFY_LIST_(list);
 }
